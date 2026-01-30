@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M&D Vending | Elevating the Nightlife Experience</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Spline+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #141414;
+            --bg-card: #1a1a1a;
+            --accent-gold: #d4af37;
+            --accent-gold-light: #e8c66f;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a0a0a0;
+            --border-subtle: #2a2a2a;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Spline Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+        
+        .font-display {
+            font-family: 'Cormorant Garamond', serif;
+        }
+        
+        /* Smooth reveal animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        
+        @keyframes scrollFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .scroll-fade-in {
+            opacity: 0;
+            animation: scrollFadeIn 1s ease-out forwards;
+        }
+        
+        .scroll-fade-in.visible {
+            animation: scrollFadeIn 1s ease-out forwards;
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 1s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 1.2s ease-out forwards;
+            opacity: 0;
+        }
+        
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+        .delay-600 { animation-delay: 0.6s; }
+        .delay-700 { animation-delay: 0.7s; }
+        .delay-800 { animation-delay: 0.8s; }
+        
+        /* Luxury gradient background */
+        .gradient-bg {
+            background: linear-gradient(180deg, 
+                var(--bg-primary) 0%, 
+                #0f0f0f 50%, 
+                var(--bg-primary) 100%);
+        }
+        
+        /* Gold shimmer effect */
+        .gold-shimmer {
+            background: linear-gradient(
+                90deg,
+                var(--accent-gold) 0%,
+                var(--accent-gold-light) 50%,
+                var(--accent-gold) 100%
+            );
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 3s linear infinite;
+        }
+        
+        /* Card hover effects */
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--border-subtle);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-gold);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.1);
+        }
+        
+        /* Form styling */
+        input, textarea {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+        
+        button {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+        }
+        
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        button:hover::before {
+            left: 100%;
+        }
+        
+        /* Decorative elements */
+        .corner-accent {
+            position: relative;
+        }
+        
+        .corner-accent::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 30px;
+            height: 1px;
+            background: var(--accent-gold);
+        }
+        
+        .corner-accent::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1px;
+            height: 30px;
+            background: var(--accent-gold);
+        }
+        
+        /* Responsive utilities */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="gradient-bg">
+    
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-black/60 backdrop-blur-md border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <img src="logo.png" alt="M&D Vending Logo" class="h-10 w-auto">
+                <span class="font-display text-2xl font-semibold tracking-wide">M&D Vending</span>
+            </div>
+            <a href="#contact" class="text-sm font-light text-gray-300 hover:text-white transition-colors">
+                Request a Machine
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="min-h-screen flex items-center justify-center px-6 pt-20">
+        <div class="max-w-6xl mx-auto text-center">
+            <div class="animate-fade-in delay-200">
+                <span class="inline-block px-4 py-1 text-xs font-light tracking-widest uppercase border border-gray-700 text-gray-400 rounded-full mb-8">
+                    Premium Automated Retail
+                </span>
+            </div>
+            
+            <h1 class="font-display text-6xl md:text-7xl lg:text-8xl font-light leading-tight mb-6 animate-fade-in-up delay-300 hero-title">
+                Elevating the<br>
+                <span class="gold-shimmer font-semibold">Nightlife Experience</span>
+            </h1>
+            
+            <p class="text-xl md:text-2xl font-light text-gray-400 max-w-3xl mx-auto mb-12 animate-fade-in-up delay-400">
+                Premium guest amenities with zero cost, zero effort,<br class="hidden md:block"> 
+                and 100% compliance.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up delay-500">
+                <a href="#partnership" class="px-8 py-4 bg-gradient-to-r from-yellow-600 to-yellow-500 text-black font-medium rounded-lg hover:shadow-xl transition-all">
+                    Learn About Partnership
+                </a>
+                <a href="#essentials" class="px-8 py-4 border border-gray-700 text-gray-300 font-light rounded-lg hover:border-yellow-600 hover:text-white transition-all">
+                    Explore Solutions
+                </a>
+            </div>
+            
+            <!-- Decorative line -->
+            <div class="mt-16 animate-fade-in delay-700">
+                <div class="w-px h-12 bg-gradient-to-b from-yellow-600/50 to-transparent mx-auto"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Essentials Section -->
+    <section id="essentials" class="py-16 px-6 scroll-fade-in">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-12 corner-accent inline-block mx-auto">
+                <span class="text-sm font-light tracking-widest uppercase text-gray-500 block mb-3">The Essentials</span>
+                <h2 class="font-display text-5xl md:text-6xl font-light text-gray-200">
+                    Everything Your Guests Need
+                </h2>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1: Tech & Power -->
+                <div class="card-hover bg-gradient-to-b from-gray-900 to-black rounded-2xl p-8 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-yellow-600/5 rounded-full blur-3xl"></div>
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 mb-6 flex items-center justify-center">
+                            <svg class="w-full h-full" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="18" y="8" width="28" height="44" rx="4" stroke="#d4af37" stroke-width="2"/>
+                                <rect x="26" y="46" width="12" height="2" rx="1" fill="#d4af37"/>
+                                <path d="M32 18 L32 34 M26 26 L32 18 L38 26" stroke="#d4af37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-display text-3xl font-semibold mb-3 text-yellow-500">Tech & Power</h3>
+                        <p class="text-gray-400 font-light leading-relaxed mb-4">
+                            Lightning & USB-C chargers keep your guests connected and engaged throughout the night.
+                        </p>
+                        <div class="text-xs text-gray-600 uppercase tracking-widest">Premium Chargers</div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Hygiene & Freshness -->
+                <div class="card-hover bg-gradient-to-b from-gray-900 to-black rounded-2xl p-8 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-yellow-600/5 rounded-full blur-3xl"></div>
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 mb-6 flex items-center justify-center">
+                            <svg class="w-full h-full" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="20" y="16" width="24" height="36" rx="3" stroke="#d4af37" stroke-width="2"/>
+                                <circle cx="32" cy="28" r="6" stroke="#d4af37" stroke-width="2"/>
+                                <path d="M28 42 L36 42 M26 46 L38 46" stroke="#d4af37" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-display text-3xl font-semibold mb-3 text-yellow-500">Hygiene & Freshness</h3>
+                        <p class="text-gray-400 font-light leading-relaxed mb-4">
+                            Premium cologne, breath mints, and personal care products that elevate the guest experience.
+                        </p>
+                        <div class="text-xs text-gray-600 uppercase tracking-widest">Personal Care</div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Compliance First -->
+                <div class="card-hover bg-gradient-to-b from-gray-900 to-black rounded-2xl p-8 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-yellow-600/5 rounded-full blur-3xl"></div>
+                    <div class="relative z-10">
+                        <div class="w-16 h-16 mb-6 flex items-center justify-center">
+                            <svg class="w-full h-full" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="32" cy="32" r="20" stroke="#d4af37" stroke-width="2"/>
+                                <path d="M26 32 L30 36 L38 26" stroke="#d4af37" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M32 12 L32 16 M32 48 L32 52 M12 32 L16 32 M48 32 L52 32" stroke="#d4af37" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-display text-3xl font-semibold mb-3 text-yellow-500">Compliance First</h3>
+                        <p class="text-gray-400 font-light leading-relaxed mb-4">
+                            Age-restricted nicotine & tobacco products with built-in ID verification for complete peace of mind.
+                        </p>
+                        <div class="text-xs text-gray-600 uppercase tracking-widest">Full Regulatory Compliance</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Partnership Section -->
+    <section id="partnership" class="py-20 px-6 bg-gradient-to-b from-black via-gray-900 to-black scroll-fade-in">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-20">
+                <span class="text-sm font-light tracking-widest uppercase text-gray-500 block mb-3">The Partnership</span>
+                <h2 class="font-display text-5xl md:text-6xl font-light text-gray-200 mb-6">
+                    A Win-Win Partnership
+                </h2>
+                <p class="text-xl text-gray-400 font-light max-w-3xl mx-auto">
+                    We handle everything. You simply earn revenue from day one.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-12 mb-20">
+                <div class="text-center">
+                    <div class="text-6xl font-display font-semibold text-yellow-500 mb-3">15%</div>
+                    <div class="text-lg font-light text-gray-300 mb-2">Net Profit Share</div>
+                    <div class="text-sm text-gray-500 font-light">
+                        Passive revenue from every transaction with complete transparency
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="text-6xl font-display font-semibold text-yellow-500 mb-3">$1M</div>
+                    <div class="text-lg font-light text-gray-300 mb-2">Liability Insurance</div>
+                    <div class="text-sm text-gray-500 font-light">
+                        Comprehensive coverage for your protection and peace of mind
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="text-6xl font-display font-semibold text-yellow-500 mb-3">30</div>
+                    <div class="text-lg font-light text-gray-300 mb-2">Day Risk-Free Trial</div>
+                    <div class="text-sm text-gray-500 font-light">
+                        Test our service with absolutely zero commitment
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-16">
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div>
+                        <h3 class="font-display text-2xl font-semibold mb-4 text-gray-200">What We Provide</h3>
+                        <ul class="space-y-3 text-gray-400 font-light">
+                            <li class="flex items-start">
+                                <span class="text-yellow-600 mr-3">✓</span>
+                                Premium vending machines at zero cost to you
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-yellow-600 mr-3">✓</span>
+                                Installation, maintenance, and restocking
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-yellow-600 mr-3">✓</span>
+                                24/7 technical support and monitoring
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-yellow-600 mr-3">✓</span>
+                                Full compliance and insurance coverage
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-display text-2xl font-semibold mb-4 text-gray-200">What You Receive</h3>
+                        <ul class="space-y-3 text-gray-400 font-light">
+                            <li class="flex items-start">
+                                <span class="text-yellow-600 mr-3">✓</span>
+                                15% of net profits, paid monthly
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-yellow-600 mr-3">✓</span>
+                                Enhanced guest experience and satisfaction
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-yellow-600 mr-3">✓</span>
+                                Increased dwell time and customer loyalty
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-yellow-600 mr-3">✓</span>
+                                Zero operational burden or hassle
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 px-6 scroll-fade-in">
+        <div class="max-w-3xl mx-auto">
+            <div class="text-center mb-16">
+                <span class="text-sm font-light tracking-widest uppercase text-gray-500 block mb-3">Get Started</span>
+                <h2 class="font-display text-5xl md:text-6xl font-light text-gray-200 mb-6">
+                    Request a Machine
+                </h2>
+                <p class="text-lg text-gray-400 font-light">
+                    Join Rhode Island's premier nightlife venues. Let's elevate your guest experience together.
+                </p>
+            </div>
+
+            <form class="space-y-6" onsubmit="handleSubmit(event)">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-light text-gray-400 mb-2">Venue Name</label>
+                        <input 
+                            type="text" 
+                            required 
+                            class="w-full px-4 py-3 rounded-lg font-light"
+                            placeholder="Your venue name"
+                        />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-light text-gray-400 mb-2">Contact Name</label>
+                        <input 
+                            type="text" 
+                            required 
+                            class="w-full px-4 py-3 rounded-lg font-light"
+                            placeholder="Your name"
+                        />
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-light text-gray-400 mb-2">Email</label>
+                        <input 
+                            type="email" 
+                            required 
+                            class="w-full px-4 py-3 rounded-lg font-light"
+                            placeholder="your@email.com"
+                        />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-light text-gray-400 mb-2">Phone</label>
+                        <input 
+                            type="tel" 
+                            required 
+                            class="w-full px-4 py-3 rounded-lg font-light"
+                            placeholder="(401) 555-0123"
+                        />
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-light text-gray-400 mb-2">Venue Type</label>
+                    <select class="w-full px-4 py-3 rounded-lg font-light" required>
+                        <option value="">Select venue type</option>
+                        <option value="nightclub">Nightclub</option>
+                        <option value="bar">Bar</option>
+                        <option value="lounge">Lounge</option>
+                        <option value="restaurant">Restaurant & Bar</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-light text-gray-400 mb-2">Message (Optional)</label>
+                    <textarea 
+                        rows="4" 
+                        class="w-full px-4 py-3 rounded-lg font-light resize-none"
+                        placeholder="Tell us about your venue and what you're looking for..."
+                    ></textarea>
+                </div>
+
+                <button 
+                    type="submit" 
+                    class="w-full px-8 py-4 bg-gradient-to-r from-yellow-600 to-yellow-500 text-black font-medium rounded-lg"
+                >
+                    Submit Request
+                </button>
+
+                <p class="text-xs text-center text-gray-600 font-light">
+                    We'll respond within 24 hours to schedule a consultation
+                </p>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-900 py-12 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="flex items-center space-x-3 mb-4 md:mb-0">
+                    <img src="logo.png" alt="M&D Vending Logo" class="h-8 w-auto">
+                    <span class="font-display text-xl font-semibold">M&D Vending</span>
+                </div>
+                
+                <div class="text-center md:text-left mb-4 md:mb-0">
+                    <p class="text-gray-500 font-light text-sm">
+                        Serving premium nightlife venues across Rhode Island
+                    </p>
+                    <p class="text-gray-600 font-light text-xs mt-1">
+                        Providence, RI
+                    </p>
+                </div>
+
+                <div class="text-gray-600 text-sm font-light">
+                    © 2025 M&D Vending. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            alert('Thank you for your interest! This is a demo form. In production, this would send your information to M&D Vending.');
+            event.target.reset();
+        }
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll-triggered fade-in animations for sections
+        const scrollFadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        // Observe all sections with scroll-fade-in class
+        document.querySelectorAll('.scroll-fade-in').forEach(section => {
+            scrollFadeObserver.observe(section);
+        });
+
+        // Optional: Add scroll-triggered animations for cards
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card-hover').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            observer.observe(card);
+        });
+    </script>
+
+</body>
+</html>
